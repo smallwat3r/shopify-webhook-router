@@ -51,4 +51,4 @@ def handle_parsing_error(err, req, schema, *, error_status_code, error_headers):
 
 # Routing
 router.add_url_rule("/", view_func=Health.as_view("health"))
-router.add_url_rule("/router", view_func=Router.as_view("webhook"))
+router.add_url_rule("/router", view_func=Router.as_view("router"))
