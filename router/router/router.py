@@ -8,8 +8,7 @@ from flask import jsonify, make_response, request
 from flask.views import MethodView
 from webargs.flaskparser import parser, use_args
 
-from router.router.handlers import verify
-from router.router.schemas import Headers
+from router.router.handlers import Headers, verify
 
 router = Blueprint("router", __name__)
 
@@ -24,7 +23,7 @@ class Health(MethodView):
 
 
 class Router(MethodView):
-    """Webhook receiver endpoint."""
+    """Webhook router endpoint."""
 
     @headers(Headers())
     def post(self, hdata) -> Response:

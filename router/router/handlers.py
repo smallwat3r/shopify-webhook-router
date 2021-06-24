@@ -3,7 +3,7 @@ import hmac
 from base64 import b64encode as b64e
 
 from flask import current_app as app
-from marshmallow import ValidationError
+from marshmallow import Schema, ValidationError, fields
 
 
 def verify(data, hmac_header):
@@ -27,3 +27,18 @@ class Validator:
         """Validate that the Shopify API version is supported."""
         if version not in app.config["SHOPIFY_SUPPORTED_API_VERSIONS"]:
             raise ValidationError(f"Webhook API version {version} not supported.")
+
+
+class Headers(Schema):
+    """Expected request headers."""
+
+    x_shopify_topic = fields.Str(required=True, data_key="X-Shopify-Topic")
+    x_shopify_hmac_sha256 = fields.Str(required=True, data_key="X-Shopify-Hmac-Sha256")
+    x_shopify_shop_domain = fields.Str(
+        required=True, data_key="X-Shopify-Shop-Domain", validate=Validator.shop
+    )
+    x_shopify_api_version = fields.Str(
+        required=True, data_key="X-Shopify-API-Version", validate=Validator.api
+    )
+    x_shopify_webhook_id = fields.Str(required=True, data_key="X-Shopify-Webhook-Id")
+    x_shopify_test = fields.Str(data_key="X-Shopify-Test")
