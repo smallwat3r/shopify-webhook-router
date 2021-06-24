@@ -1,0 +1,9 @@
+*.DS_Store
+*.log
+tmp/
+
+env/
+venv/
+
+environments/
+!environments/dev.local.template
