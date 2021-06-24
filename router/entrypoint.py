@@ -1,9 +1,14 @@
 import logging
 
+from celery import Celery
 from flask import Flask
 
-from router.config import EnvConfig
+from router.config import DefaultConfig, EnvConfig
 from router.router.router import router
+from router.tasks import Processor
+
+celery = Celery(__name__, broker=DefaultConfig.CELERY_BROKER_URL)  # default
+celery.tasks.register(Processor())
 
 
 def create_app(env):
@@ -25,6 +30,8 @@ def create_app(env):
         EnvConfig.PRODUCTION.value: "router.config.ProductionConfig",
     }
     app.config.from_object(configurations.get(env, "router.config.ProductionConfig"))
+
+    celery.conf.update(app.config)  # Overwrite celery default settings
 
     with app.app_context():
         register_blueprints(app)

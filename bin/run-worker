@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Start a celery worker instance
+
+set -e
+
+_load_env() {
+  source ./environments/local.dev
+  export $(grep --regexp "^[A-Z]" ./environments/local.dev | cut -d= -f1)
+}
+
+
+source env/bin/activate
+_load_env && \
+    celery -A router.entrypoint worker --loglevel=INFO --without-heartbeat --without-gossip --without-mingle

@@ -2,13 +2,14 @@
 import functools
 from http import HTTPStatus
 
-from flask import Blueprint, Response, abort
+from flask import Blueprint, Response
 from flask import current_app as app
-from flask import jsonify, make_response, request
+from flask import jsonify, request
 from flask.views import MethodView
-from webargs.flaskparser import parser, use_args
+from webargs.flaskparser import abort, parser, use_args
 
 from router.router.handlers import Headers, verify
+from router.middleware import Dispatcher
 
 router = Blueprint("router", __name__)
 
@@ -31,10 +32,12 @@ class Router(MethodView):
 
         if not verify(data, hdata["x_shopify_hmac_sha256"]):
             app.logger.warning("Unauthorized connection.")
-            return abort(401)
+            return "Unauthorized", HTTPStatus.UNAUTHORIZED.value
 
         if hdata["x_shopify_test"]:
             app.logger.info("Test webhook received.")
+
+        Dispatcher().run()
 
         return "Verified", HTTPStatus.OK.value
 
@@ -42,8 +45,8 @@ class Router(MethodView):
 @parser.error_handler
 def handle_parsing_error(err, req, schema, *, error_status_code, error_headers):
     """Handle request errors."""
-    app.logger.error(err.messages)
-    return make_response(jsonify(err.messages), HTTPStatus.UNPROCESSABLE_ENTITY.value)
+    app.logger.error(f"Error while receiving webhook: {err.messages}")
+    return abort(jsonify(err.messages), HTTPStatus.UNPROCESSABLE_ENTITY.value)
 
 
 # Routing

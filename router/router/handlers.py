@@ -8,7 +8,7 @@ from marshmallow import Schema, ValidationError, fields
 
 def verify(data, hmac_header):
     """Verify a webhook."""
-    digest = hmac.new(app.config["HMAC_SECRET"], data.encode(), hashlib.sha256).digest()
+    digest = hmac.new(app.config["HMAC_SECRET"].encode(), data, hashlib.sha256).digest()
     computed_hmac = b64e(digest)
     return hmac.compare_digest(computed_hmac, hmac_header.encode())
 
@@ -38,7 +38,7 @@ class Headers(Schema):
         required=True, data_key="X-Shopify-Shop-Domain", validate=Validator.shop
     )
     x_shopify_api_version = fields.Str(
-        required=True, data_key="X-Shopify-API-Version", validate=Validator.api
+        required=True, data_key="X-Shopify-Api-Version", validate=Validator.api
     )
     x_shopify_webhook_id = fields.Str(required=True, data_key="X-Shopify-Webhook-Id")
     x_shopify_test = fields.Str(data_key="X-Shopify-Test")

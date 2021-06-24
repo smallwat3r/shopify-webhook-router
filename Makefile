@@ -11,9 +11,14 @@ help: ## Show this help menu
 		awk 'BEGIN {FS = ":.*?## "}; {printf "%-10s %s\n", $$1, $$2}'
 
 .PHONY: local
-local: env ## Run a local flask server (needs environments/local.env setup)
+local: env ## Run a local flask server (needs environments/local.dev setup)
 	@echo "Starting local server ..."
 	@./bin/run-local
+
+.PHONY: worker
+worker: env ## Run a local celery worker (needs environments/local.dev setup)
+	@echo "Starting local worker ..."
+	@./bin/run-worker
 
 .PHONY: checks
 checks: tests pylint mypy bandit  ## Run all checks (unit tests, pylint, mypy, bandit)
