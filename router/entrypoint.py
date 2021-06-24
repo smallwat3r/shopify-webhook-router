@@ -2,8 +2,8 @@ import logging
 
 from flask import Flask
 
-from router.api import api
 from router.config import EnvConfig
+from router.router.router import router
 
 
 def create_app(env):
@@ -34,4 +34,4 @@ def create_app(env):
 
 def register_blueprints(app):
     """Register application blueprints."""
-    app.register_blueprint(api)
+    app.register_blueprint(router)
