@@ -3,7 +3,7 @@ import hmac
 from base64 import b64encode as b64e
 
 from flask import current_app as app
-from webargs import ValidationError
+from marshmallow import ValidationError
 
 
 def verify(data, hmac_header):
