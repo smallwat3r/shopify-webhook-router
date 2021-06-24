@@ -8,8 +8,8 @@ from flask import jsonify, make_response, request
 from flask.views import MethodView
 from webargs.flaskparser import parser, use_args
 
-from app.api.handlers import verify
-from app.api.schemas import Headers
+from router.api.handlers import verify
+from router.api.schemas import Headers
 
 api = Blueprint("api", __name__)
 

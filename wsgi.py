@@ -1,6 +1,6 @@
 import os
 
-from app.entrypoint import create_app
+from router.entrypoint import create_app
 
 app = create_app(os.environ.get("FLASK_ENV", "production"))
 

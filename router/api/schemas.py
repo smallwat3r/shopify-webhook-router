@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
 
-from app.api.handlers import Validator
+from router.api.handlers import Validator
 
 
 class Headers(Schema):

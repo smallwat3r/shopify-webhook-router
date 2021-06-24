@@ -2,8 +2,8 @@ import logging
 
 from flask import Flask
 
-from app.api import api
-from app.config import EnvConfig
+from router.api import api
+from router.config import EnvConfig
 
 
 def create_app(env):
@@ -20,11 +20,11 @@ def create_app(env):
     app = Flask(__name__)
 
     configurations = {
-        EnvConfig.TESTING.value: "app.config.TestConfig",
-        EnvConfig.DEVELOPMENT.value: "app.config.DevelopmentConfig",
-        EnvConfig.PRODUCTION.value: "app.config.ProductionConfig",
+        EnvConfig.TESTING.value: "router.config.TestConfig",
+        EnvConfig.DEVELOPMENT.value: "router.config.DevelopmentConfig",
+        EnvConfig.PRODUCTION.value: "router.config.ProductionConfig",
     }
-    app.config.from_object(configurations.get(env, "app.config.ProductionConfig"))
+    app.config.from_object(configurations.get(env, "router.config.ProductionConfig"))
 
     with app.app_context():
         register_blueprints(app)
