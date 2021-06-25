@@ -11,4 +11,5 @@ _load_env() {
 
 source env/bin/activate
 _load_env && \
-    celery -A router.entrypoint worker --loglevel=INFO --without-heartbeat --without-gossip --without-mingle
+    celery -A worker worker \
+      --loglevel=INFO --without-heartbeat --without-gossip --without-mingle

@@ -26,16 +26,16 @@ class Health(MethodView):
 class Router(MethodView):
     """Webhook router endpoint."""
 
-    @headers(Headers())
-    def post(self, hdata) -> Response:
+    # @headers(Headers())
+    def post(self, hdata=None) -> Response:
         data = request.get_data()
 
-        if not verify(data, hdata["x_shopify_hmac_sha256"]):
-            app.logger.warning("Unauthorized connection.")
-            return "Unauthorized", HTTPStatus.UNAUTHORIZED.value
+        # if not verify(data, hdata["x_shopify_hmac_sha256"]):
+        #     app.logger.warning("Unauthorized connection.")
+        #     return "Unauthorized", HTTPStatus.UNAUTHORIZED.value
 
-        if hdata["x_shopify_test"]:
-            app.logger.info("Test webhook received.")
+        # if hdata["x_shopify_test"]:
+        #     app.logger.info("Test webhook received.")
 
         Dispatcher().run()
 

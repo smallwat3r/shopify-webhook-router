@@ -28,8 +28,6 @@ class DefaultConfig:
 class DevelopmentConfig(DefaultConfig):
     """Default config values (development)."""
 
-    CELERY_BROKER_URL = "redis://localhost:6379/0"
-
 
 class TestConfig(DefaultConfig):
     """Testing configuration (testing)."""

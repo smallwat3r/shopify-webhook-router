@@ -1,8 +1,8 @@
 import os
 
-from router.entrypoint import create_app
+from router.factories import create_app
 
-app = create_app(os.environ.get("FLASK_ENV", "production"))
+app = create_app(os.environ.get("FLASK_ENV"))
 
 if __name__ == "__main__":
     app.run()

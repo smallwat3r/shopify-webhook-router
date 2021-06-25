@@ -1,12 +1,12 @@
 # pylint: disable=unused-argument,no-self-use
-from celery import Task
 from celery.utils.log import get_task_logger
+
+from router.extensions import celery
 
 logger = get_task_logger(__name__)
 
 
-class BaseTask(Task):
-
+class BaseTask(celery.Task):
     def on_success(self, retval, task_id, args, kwargs):
         logger.info(f"Task {task_id} has succeeded.")
 
@@ -23,3 +23,6 @@ class Processor(BaseTask):
 
     def run(self):
         logger.info("Processing webhook.")
+
+
+celery.tasks.register(Processor())
