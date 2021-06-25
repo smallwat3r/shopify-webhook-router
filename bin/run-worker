@@ -3,11 +3,19 @@
 
 set -e
 
-_load_env() {
-  source ./environments/local.dev
-  export $(grep --regexp "^[A-Z]" ./environments/local.dev | cut -d= -f1)
-}
+env_file='./environments/local.dev'
 
+if [[ ! -f "${env_file}"  ]]; then
+  printf 'Missing env file %s' "${env_file}" >&2
+  exit 1
+fi
+
+_load_env() {
+  # shellcheck source=/dev/null
+  source "${env_file}"
+  # shellcheck disable=SC2046
+  export $(grep --regexp '^[A-Z]' ${env_file} | cut -d= -f1)
+}
 
 source env/bin/activate
 _load_env && \
