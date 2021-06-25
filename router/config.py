@@ -2,16 +2,16 @@ import enum
 import os
 
 
-class EnvConfig(enum.Enum):
-    """Environment config values."""
+class Environment(enum.Enum):
+    """Environment configuration values."""
 
     TESTING = "testing"
     DEVELOPMENT = "development"
     PRODUCTION = "production"
 
 
-class DefaultConfig:
-    """Base config."""
+class BaseConfig:
+    """Base configuration."""
 
     DEBUG = True
     HMAC_SECRET = os.getenv("HMAC_SECRET")
@@ -25,17 +25,17 @@ class DefaultConfig:
     CELERY_BROKER_URL = f"redis://{REDIS_HOSTNAME}:{REDIS_PORT}/0"
 
 
-class DevelopmentConfig(DefaultConfig):
-    """Default config values (development)."""
+class DevelopmentConfig(BaseConfig):
+    """Development configuration (development)."""
 
 
-class TestConfig(DefaultConfig):
+class TestConfig(BaseConfig):
     """Testing configuration (testing)."""
 
     TESTING = True
 
 
-class ProductionConfig(DefaultConfig):
+class ProductionConfig(BaseConfig):
     """Production configuration (production)."""
 
     DEBUG = False

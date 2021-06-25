@@ -1,6 +1,6 @@
 from flask import Flask
 
-from router.config import EnvConfig
+from router.config import Environment
 from router.extensions import celery
 from router.router.router import router
 
@@ -19,14 +19,14 @@ def make_celery(app: Flask):
     return celery
 
 
-def create_app(env=EnvConfig.PRODUCTION.value):
+def create_app(env=Environment.PRODUCTION.value):
     """Application factory."""
     app = Flask(__name__)
 
     configurations = {
-        EnvConfig.TESTING.value: "router.config.TestConfig",
-        EnvConfig.DEVELOPMENT.value: "router.config.DevelopmentConfig",
-        EnvConfig.PRODUCTION.value: "router.config.ProductionConfig",
+        Environment.TESTING.value: "router.config.TestConfig",
+        Environment.DEVELOPMENT.value: "router.config.DevelopmentConfig",
+        Environment.PRODUCTION.value: "router.config.ProductionConfig",
     }
     app.config.from_object(configurations.get(env, "router.config.ProductionConfig"))
 
