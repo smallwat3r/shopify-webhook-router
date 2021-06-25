@@ -97,6 +97,6 @@ class Implementation:
 
 ```
 
-Any events received for non-implemented methods will raise a `NotImplemented` exception.  
+Any events received for non-existant methods will raise a `NotImplemented` exception.  
 
 The list of all webhook topics can be found [here](https://help.shopify.com/en/api/reference/events/webhook)  
