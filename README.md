@@ -10,13 +10,13 @@ PRs are also more than welcome!**
 Create a `dev.local` environment file from the template example.
 
 ``` sh
-cp environment/dev.local.template environment/dev.local
+cp environments/dev.local.template environments/dev.local
 ```
 
 In this file, you will need to input some info related to your Shopify store:
 
 ``` text
-# environment/dev.local
+# environments/dev.local
 
 FLASK_ENV=development
 FLASK_DEBUG=1
