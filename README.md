@@ -58,10 +58,9 @@ ngrok http 5000
 
 ## Implement your custom business logic
 
-You can implement your event business logic from the `Implementation` class 
-in `router/implementation/implementation.py`.  
+You can implement your own event business logic from the [Implementation](https://github.com/smallwat3r/shopify-webhook-router/blob/master/router/implementation/implementation.py) class.
 
-Create a new method from the webhook topic name, by replacing the `/` by `_`:
+Create new methods from the webhook topic names, by replacing the `/` by `_`:
 - `products/create` becomes `products_create`
 - `orders/partially_fulfilled` becomes `orders_partially_fulfilled`
 - ...
@@ -97,5 +96,7 @@ class Implementation:
         ...
 
 ```
+
+Any events received for a non-implemented methods will raise a `NotImplemented` exception.  
 
 The list of all webhook topics can be found [here](https://help.shopify.com/en/api/reference/events/webhook)  
