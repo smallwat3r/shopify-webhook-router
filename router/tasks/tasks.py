@@ -1,12 +1,17 @@
-# pylint: disable=unused-argument,no-self-use
+# pylint: disable=unused-argument,no-self-use,missing-function-docstring
+import json
+
 from celery.utils.log import get_task_logger
 
 from router.extensions import celery
+from router.implementation import dispatch
 
 logger = get_task_logger(__name__)
 
 
 class BaseTask(celery.Task):
+    """Base Celery task."""
+
     def on_success(self, retval, task_id, args, kwargs):
         logger.info(f"Task {task_id} has succeeded.")
 
@@ -18,11 +23,17 @@ class BaseTask(celery.Task):
 
 
 class Processor(BaseTask):
+    """Celery task to process a webhook."""
 
     name = "webhook_processor"
 
-    def run(self):
-        logger.info("Processing webhook.")
+    def run(self, data: dict, topic: str, shop: str, version: str, webhook_id: str, test: bool):
+        logger.info(f"Processing webhook {webhook_id} {topic}")
+        data = json.loads(data)
+        try:
+            dispatch(data, topic, shop, version, webhook_id, test)
+        except NotImplementedError as err:
+            logger.error(err)
 
 
 celery.tasks.register(Processor())

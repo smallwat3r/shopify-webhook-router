@@ -1,17 +1,20 @@
 # pylint: disable=no-self-use,missing-function-docstring,unused-argument
 import functools
+from datetime import datetime
 from http import HTTPStatus
 
 from flask import Blueprint, Response
 from flask import current_app as app
 from flask import jsonify, request
 from flask.views import MethodView
-from webargs.flaskparser import abort, parser, use_args
+from webargs.flaskparser import abort, parser, use_kwargs
 
+from router.extensions import redis_client
 from router.router.handlers import Headers, verify
-from router.middleware import Dispatcher
+from router.tasks import Processor
 
 router = Blueprint("router", __name__)
+headers = functools.partial(use_kwargs, location="headers")
 
 
 class Health(MethodView):
@@ -21,24 +24,26 @@ class Health(MethodView):
         return "Healthy", HTTPStatus.OK.value
 
 
-headers = functools.partial(use_args, location="headers")
-
-
 class Router(MethodView):
     """Webhook router endpoint."""
 
     @headers(Headers())
-    def post(self, hdata) -> Response:
+    def post(self, topic, shop, version, webhook_id, hmac_sha256, test=False, **kwargs) -> Response:
         data = request.get_data()
 
-        if not verify(data, hdata["x_shopify_hmac_sha256"]):
-            app.logger.warning("Unauthorized connection.")
+        if not verify(data, hmac_sha256):
+            app.logger.error(f"{webhook_id} {topic} unauthorized connection")
             return "Unauthorized", HTTPStatus.UNAUTHORIZED.value
 
-        if hdata["x_shopify_test"]:
-            app.logger.info("Test webhook received.")
+        if test:
+            app.logger.info(f"*TEST* {webhook_id} {topic} received")
 
-        Dispatcher().run()
+        if date_seen := redis_client.get(webhook_id):
+            app.logger.warning(f"{webhook_id} {topic} already seen on {date_seen.decode()}")
+        else:
+            Processor().delay(data.decode(), topic, shop, version, webhook_id, test)
+            redis_client.set(webhook_id, str(datetime.now()))
+            app.logger.info(f"{webhook_id} {topic} received")
 
         return "Verified", HTTPStatus.OK.value
 

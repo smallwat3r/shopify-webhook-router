@@ -1,7 +1,7 @@
 from flask import Flask
 
 from router.config import Environment
-from router.extensions import celery
+from router.extensions import celery, redis_client
 from router.router.router import router
 
 
@@ -31,6 +31,8 @@ def create_app(env=Environment.PRODUCTION.value):
     app.config.from_object(configurations.get(env, "router.config.ProductionConfig"))
 
     celery.conf.update(broker_url=app.config["CELERY_BROKER_URL"])
+
+    redis_client.init_app(app)
 
     with app.app_context():
         app.register_blueprint(router)
