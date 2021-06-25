@@ -4,7 +4,7 @@ import json
 from celery.utils.log import get_task_logger
 
 from router.extensions import celery
-from router.implementation import dispatch
+from router.event import dispatch, Event
 
 logger = get_task_logger(__name__)
 
@@ -29,9 +29,9 @@ class Processor(BaseTask):
 
     def run(self, data: dict, topic: str, shop: str, version: str, webhook_id: str, test: bool):
         logger.info(f"Processing webhook {webhook_id} {topic}")
-        data = json.loads(data)
+        event = Event(json.loads(data), topic, shop, version, webhook_id, test)
         try:
-            dispatch(data, topic, shop, version, webhook_id, test)
+            dispatch(event)
         except NotImplementedError as err:
             logger.error(err)
 

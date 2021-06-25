@@ -70,38 +70,47 @@ Create new methods from the webhook topic names, by replacing any `/` by `_`:
 - `orders/partially_fulfilled` becomes `orders_partially_fulfilled`
 - ...
 
-Each methods needs to implement these mandatory parameters:  
-- `data`: The dictionary of data related to the event.
-- `shop`: The webhook shop domain name.
-- `version`: The webhook API version used.
-- `webhook_id`: The unique webhook id.
-- `test`: Boolean flag to spot test Shopify webhooks.
+Each methods need to implement one mandatory parameter representing a dataclass of
+type `Event` from which you can get the following attributes:
+
+- `data`: the webhook data (`dict`)
+- `topic`: the topic name (`str`)
+- `shop`: the Shopify shop domain (`str`)
+- `version`: the webhook API version (`str`)
+- `webhook_id`: the unique webhook_id (`str`)
+- `test`: a flag used to spot test Shopify webhooks (`bool`)
 
 Example:  
 
 ``` python
 # router/implementation/implementation.py
+from router.event import Event
+
 
 class Implementation:
+ 
+    # (...)
     
     # topic order/paid
-    def orders_paid(self, data, shop, version, webhook_id, test):  
-        if test:
+    def orders_paid(self, hook: Event):
+        if hook.test:
             pass
+        print(hook.shop, hook.version, hook.topic)
+        data = hook.data
         order_id = data.get("order_id")
         email = data.get("email")
         # ... send order to warehouse, send confirmation email ...
 
     # topic order/delete
-    def order_delete(self, data, shop, version, webhook_id, test):
+    def orders_delete(self, hook: Event):
         ...
 
     # topic inventory_items/create
-    def inventory_items_create(self, data, shop, version, webhook_id, test):
+    def inventory_items_create(self, hook: Event):
         ...
 
 ```
 
-Any events received for non-existant methods will raise a `NotImplemented` exception.  
+Any topic events received for non-existant methods will raise a `NotImplemented` exception.  
 
 The list of all webhook topics can be found [here](https://help.shopify.com/en/api/reference/events/webhook)  
