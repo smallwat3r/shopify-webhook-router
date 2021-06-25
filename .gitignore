@@ -6,5 +6,4 @@ tmp/
 env/
 venv/
 
-environments/
-!environments/local.dev.template
+environments/local.dev

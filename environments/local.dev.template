@@ -1,0 +1,18 @@
+# development env
+# env file for local development purposes only
+# please do not use this env file in production
+
+# [MANDATORY]
+
+FLASK_ENV=development
+FLASK_DEBUG=1
+
+# Signed Shopify secret used to verify the webhooks
+HMAC_SECRET=<secret>
+
+# Comma separated lists
+SHOPIFY_DOMAIN_ALLOWLIST=<domain.myshopify.com>
+SHOPIFY_SUPPORTED_API_VERSIONS=2021-04,2021-07
+
+REDIS_HOSTNAME=localhost
+REDIS_PORT=6379
