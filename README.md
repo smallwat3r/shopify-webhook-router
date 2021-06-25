@@ -58,9 +58,11 @@ ngrok http 5000
 
 ## Implement your custom business logic
 
+The webhooks must target the `https://<host>/router` endpoint.  
+
 You can implement your own event business logic from the [Implementation](https://github.com/smallwat3r/shopify-webhook-router/blob/master/router/implementation/implementation.py) class.
 
-Create new methods from the webhook topic names, by replacing the `/` by `_`:
+Create new methods from the webhook topic names, by replacing any `/` by `_`:
 - `products/create` becomes `products_create`
 - `orders/partially_fulfilled` becomes `orders_partially_fulfilled`
 - ...
