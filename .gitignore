@@ -1,9 +1,10 @@
 *.DS_Store
 *.log
+*.rdb
 tmp/
 
 env/
 venv/
 
 environments/
-!environments/dev.local.template
+!environments/local.dev.template

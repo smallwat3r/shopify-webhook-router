@@ -9,12 +9,13 @@ class Implementation:
 
     Example:
 
-        # topic orders/create
-        def orders_create(self, data, shop, version, webhook_id, test):
+        # topic order/paid
+        def orders_paid(self, data, shop, version, webhook_id, test):
+            if test:
+                pass
             order_id = data.get("order_id")
             email = data.get("email")
-            if test:
-                ...
+            # ... send order to warehouse, send confirmation email ...
 
         # topic order/delete
         def order_delete(self, data, shop, version, webhook_id, test):
