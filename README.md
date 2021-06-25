@@ -56,6 +56,10 @@ between Shopify and your local app:
 ngrok http 5000
 ```
 
+The application provides two endpoints:
+- `/`: Used for healthchecks
+- `/router`: The webhooks entrypoint
+
 ## Implement your custom business logic
 
 The webhooks must target the `https://<host>/router` endpoint.  
