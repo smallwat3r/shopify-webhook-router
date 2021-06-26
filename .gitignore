@@ -7,3 +7,4 @@ env/
 venv/
 
 environments/local.dev
+environments/docker.dev
