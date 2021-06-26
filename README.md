@@ -59,7 +59,8 @@ The application provides two endpoints:
 - `/`: Used for healthchecks
 - `/router`: The webhooks entrypoint
 
-## Implement your custom business logic
+
+## Add in your custom business logic
 
 The webhooks must target the `https://<host>/router` endpoint.  
 
@@ -116,6 +117,6 @@ class Implementation:
 
 ```
 
-Any topic events received for non-existant methods will raise a `NotImplemented` exception.  
+Any topic events received for non-existant methods will raise a `NotImplementedError` exception.  
 
 The list of all webhook topics can be found [here](https://help.shopify.com/en/api/reference/events/webhook)  
