@@ -80,7 +80,19 @@ type `Event` from which you can get the following attributes:
 - `webhook_id`: the unique webhook_id (`str`)
 - `test`: a flag used to spot test Shopify webhooks (`bool`)
 
-Example:  
+``` python
+@dataclass
+class Event:
+
+    data: dict
+    topic: str
+    shop: str
+    version: str
+    webhook_id: str
+    test: bool
+```
+
+#### Implementation example:  
 
 ``` python
 # router/implementation/implementation.py
