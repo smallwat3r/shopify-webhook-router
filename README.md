@@ -8,7 +8,7 @@ PRs are also more than welcome!**
 ## Set-up
 
 <details>
-<summary><b>Launch it natively</b></summary>
+<summary><b>Natively (click me)</b></summary>
 
 Create a `local.dev` environment file from the template example.
 
@@ -54,7 +54,7 @@ make worker
 </details>
 
 <details>
-<summary><b>Using docker-compose</b></summary>
+<summary><b>Or using docker-compose (click me)</b></summary>
 
 Create a `docker.dev` environment file from the template example.
 
