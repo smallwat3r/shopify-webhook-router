@@ -10,12 +10,15 @@ class Implementation:
     Each methods need to implement one mandatory parameter representing a dataclass of
     type `Event` from which you can get the following attributes:
 
-        data: the webhook data (dict)
-        topic: the topic name (str)
-        shop: the Shopify shop domain (str)
-        version: the webhook API version (str)
-        webhook_id: the unique webhook_id (str)
-        test: a flag used to spot test Shopify webhooks (bool)
+        @dataclass
+        class Event:
+
+            data: dict       # the webhook data
+            topic: str       # the event topic name, ie. orders/create
+            shop: str        # the Shopify shop domain
+            version: str     # the Shopify webhook version
+            webhook_id: str  # the webhook unique id
+            test: bool       # flag to spot test Shopify webhooks
 
     Any topic events received for non-existant methods will raise a `NotImplemented`
     exception.
@@ -27,7 +30,7 @@ class Implementation:
 
         class Implementation:
 
-            # topic order/paid
+            # topic orders/paid
             def orders_paid(self, hook: Event):
                 if hook.test:
                     pass
@@ -37,7 +40,7 @@ class Implementation:
                 email = data.get("email")
                 # ... send order to warehouse, send confirmation email ...
 
-            # topic order/delete
+            # topic orders/delete
             def orders_delete(self, hook: Event):
                 ...
 

@@ -96,7 +96,7 @@ class Implementation:
  
     # (...)
     
-    # topic order/paid
+    # topic orders/paid
     def orders_paid(self, hook: Event):
         if hook.test:
             pass
@@ -106,7 +106,7 @@ class Implementation:
         email = data.get("email")
         # ... send order to warehouse, send confirmation email ...
 
-    # topic order/delete
+    # topic orders/delete
     def orders_delete(self, hook: Event):
         ...
 
