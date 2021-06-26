@@ -10,7 +10,7 @@ from flask.views import MethodView
 from webargs.flaskparser import abort, parser, use_kwargs
 
 from router.extensions import redis_client
-from router.router.handlers import Headers, verify
+from router.router.helpers import Headers, verify
 from router.tasks import Processor
 
 router = Blueprint("router", __name__)
