@@ -27,7 +27,7 @@ class Processor(BaseTask):
 
     name = "webhook_processor"
 
-    def run(self, data: dict, topic: str, shop: str, version: str, webhook_id: str, test: bool):
+    def run(self, data: str, topic: str, shop: str, version: str, webhook_id: str, test: bool):
         logger.info(f"Processing webhook {webhook_id} {topic}")
         event = Event(json.loads(data), topic, shop, version, webhook_id, test)
         try:

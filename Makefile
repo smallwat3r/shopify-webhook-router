@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 
-SRC_DIR=app
+SRC_DIR=router
 TESTS_DIR=tests
 
 .PHONY: help
@@ -67,4 +67,4 @@ env:
 
 .PHONY: test-env
 test-env:
-	@./bin/iest-deps
+	@./bin/install-test-deps

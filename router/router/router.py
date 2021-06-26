@@ -3,7 +3,7 @@ import functools
 from datetime import datetime
 from http import HTTPStatus
 
-from flask import Blueprint, Response
+from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify, request
 from flask.views import MethodView
@@ -20,7 +20,7 @@ headers = functools.partial(use_kwargs, location="headers")
 class Health(MethodView):
     """Health endpoint."""
 
-    def get(self) -> Response:
+    def get(self):
         return "Healthy", HTTPStatus.OK.value
 
 
@@ -28,7 +28,7 @@ class Router(MethodView):
     """Webhook router endpoint."""
 
     @headers(Headers())
-    def post(self, topic, shop, version, webhook_id, hmac_sha256, test=False, **kwargs) -> Response:
+    def post(self, topic, shop, version, webhook_id, hmac_sha256, test=False, **kwargs):
         data = request.get_data()
 
         if not verify(data, hmac_sha256):
