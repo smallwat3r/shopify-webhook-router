@@ -17,30 +17,33 @@ class Implementation:
         webhook_id: the unique webhook_id (str)
         test: a flag used to spot test Shopify webhooks (bool)
 
-    Any topic events received for non-existant methods will raise a `NotImplemented` exception.
+    Any topic events received for non-existant methods will raise a `NotImplemented`
+    exception.
 
     The list of all webhook topics can be found at:
     https://help.shopify.com/en/api/reference/events/webhook
 
     Example:
 
-        # topic order/paid
-        def orders_paid(self, hook: Event):
-            if hook.test:
-                pass
-            print(hook.shop, hook.version, hook.topic)
-            data = hook.data
-            order_id = data.get("order_id")
-            email = data.get("email")
-            # ... send order to warehouse, send confirmation email ...
+        class Implementation:
 
-        # topic order/delete
-        def orders_delete(self, hook: Event):
-            ...
+            # topic order/paid
+            def orders_paid(self, hook: Event):
+                if hook.test:
+                    pass
+                print(hook.shop, hook.version, hook.topic)
+                data = hook.data
+                order_id = data.get("order_id")
+                email = data.get("email")
+                # ... send order to warehouse, send confirmation email ...
 
-        # topic inventory_items/create
-        def inventory_items_create(self, hook: Event):
-            ...
+            # topic order/delete
+            def orders_delete(self, hook: Event):
+                ...
+
+            # topic inventory_items/create
+            def inventory_items_create(self, hook: Event):
+                ...
 
     """
 
