@@ -10,6 +10,14 @@ help: ## Show this help menu
 	@grep --no-filename -E '^[a-zA-Z_%-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "%-10s %s\n", $$1, $$2}'
 
+.PHONY: dc-start
+dc-start: dc-stop  ## Start dev docker server
+	@docker-compose -f docker-compose-dev.yml up --build -d;
+
+.PHONY: dc-stop
+dc-stop: ## Stop dev docker server
+	@docker-compose -f docker-compose-dev.yml stop;
+
 .PHONY: local
 local: env ## Run a local flask server (needs environments/local.dev setup)
 	@echo "Starting local server ..."

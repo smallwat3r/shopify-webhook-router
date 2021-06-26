@@ -1,0 +1,37 @@
+version: '3.2'
+
+services:
+
+  flask:
+    build:
+      context: .
+      dockerfile: alpine.Dockerfile
+    command: >
+      gunicorn -b :5000 -w 3 wsgi:app
+    depends_on:
+      - redis
+    env_file:
+      - ./environments/docker.dev
+    ports:
+      - 5000:5000
+
+  worker:
+    build:
+      context: .
+      dockerfile: alpine.Dockerfile
+    command: >
+      celery -A worker worker
+      --loglevel=INFO
+      --pidfile=/var/run/celery/celery.pid
+      --without-heartbeat
+      --without-gossip
+      --without-mingle
+    depends_on:
+      - redis
+    env_file:
+      - ./environments/docker.dev
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379

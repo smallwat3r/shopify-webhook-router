@@ -7,16 +7,19 @@ PRs are also more than welcome!**
 
 ## Set-up
 
-Create a `dev.local` environment file from the template example.
+<details>
+<summary><b>Launch it natively</b></summary>
+
+Create a `local.dev` environment file from the template example.
 
 ``` sh
-cp environments/dev.local.template environments/dev.local
+cp environments/local.dev.template environments/local.dev
 ```
 
 In this file, you will need to input some info related to your Shopify store:
 
 ``` text
-# environments/dev.local
+# environments/local.dev
 
 FLASK_ENV=development
 FLASK_DEBUG=1
@@ -47,6 +50,50 @@ Start a local instance of Celery:
 ``` sh
 make worker
 ```
+
+</details>
+
+<details>
+<summary><b>Using docker-compose</b></summary>
+
+Create a `docker.dev` environment file from the template example.
+
+``` sh
+cp environments/local.dev.template environments/docker.dev
+```
+
+In this file, you will need to input some info related to your Shopify store:
+
+``` text
+# environments/docker.dev
+
+FLASK_ENV=development
+FLASK_DEBUG=1
+
+# Signed Shopify secret used to verify the webhooks
+HMAC_SECRET=<secret>
+
+# Comma separated lists
+SHOPIFY_DOMAIN_ALLOWLIST=<domain.myshopify.com>
+SHOPIFY_SUPPORTED_API_VERSIONS=2021-04,2021-07
+
+REDIS_HOSTNAME=localhost
+REDIS_PORT=6379
+```
+
+Launch Flask, Celery and Redis from the docker-compose-dev file using:
+
+``` sh
+make dc-start
+```
+
+Stop the containers with:
+
+``` sh
+make dc-stop
+```
+
+</details>
 
 You can use ngrok to get a temporary https endpoint to test the webhook behaviour
 between Shopify and your local app:  
