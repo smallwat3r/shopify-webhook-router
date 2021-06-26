@@ -73,23 +73,16 @@ Create new methods from the webhook topic names, by replacing any `/` by `_`:
 Each methods need to implement one mandatory parameter representing a dataclass of
 type `Event` from which you can get the following attributes:
 
-- `data`: the webhook data (`dict`)
-- `topic`: the topic name (`str`)
-- `shop`: the Shopify shop domain (`str`)
-- `version`: the webhook API version (`str`)
-- `webhook_id`: the unique webhook_id (`str`)
-- `test`: a flag used to spot test Shopify webhooks (`bool`)
-
 ``` python
 @dataclass
 class Event:
 
-    data: dict
-    topic: str
-    shop: str
-    version: str
-    webhook_id: str
-    test: bool
+    data: dict       # the webhook data
+    topic: str       # the event topic name, ie. orders/create
+    shop: str        # the Shopify shop domain
+    version: str     # the Shopify webhook version
+    webhook_id: str  # the webhook unique id
+    test: bool       # flag to spot test Shopify webhooks
 ```
 
 #### Implementation example:  
