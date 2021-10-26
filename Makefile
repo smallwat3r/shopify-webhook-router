@@ -1,7 +1,6 @@
 SHELL=/bin/bash
 
 SRC_DIR=router
-TESTS_DIR=tests
 
 .PHONY: help
 help: ## Show this help menu
@@ -29,19 +28,13 @@ worker: env ## Run a local celery worker (needs environments/local.dev setup)
 	@./bin/run-worker
 
 .PHONY: checks
-checks: tests pylint mypy bandit  ## Run all checks (unit tests, pylint, mypy, bandit)
-
-.PHONY: tests
-tests: env test-env ## Run unit tests
-	@echo "Running tests ..."
-	@./bin/run-tests
+checks: pylint mypy bandit  ## Run all checks (unit tests, pylint, mypy, bandit)
 
 .PHONY: fmt
 fmt: test-env ## Format python code with black
 	@echo "Running Black ..."
 	@source env/bin/activate \
-		&& black --line-length 100 --target-version py38 $(SRC_DIR) \
-		&& black --line-length 100 --target-version py38 $(TESTS_DIR)
+		&& black --line-length 100 --target-version py38 $(SRC_DIR)
 
 .PHONY: pylint
 pylint: test-env ## Run pylint

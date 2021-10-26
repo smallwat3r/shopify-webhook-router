@@ -2,9 +2,6 @@
 
 Boilerplate code to handle and process Shopify webhooks with Flask and Celery.  
 
-**Please note this project is still under development and the current implementation might change. If you encounter any issues, please open an issue [here](https://github.com/smallwat3r/shopify-webhook-router/issues),
-PRs are also more than welcome!**
-
 ## Set-up
 
 <details>
